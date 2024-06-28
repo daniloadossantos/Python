@@ -1,4 +1,4 @@
-from Avaliacao import Avaliacao
+from avaliacao import Avaliacao
 class Restaurante:
     restaurantes = []
 
@@ -35,14 +35,17 @@ class Restaurante:
         return '☑' if self._ativo else '☐'
 
     def receber_avaliacao(self, cliente, nota):
-        avaliacao = Avaliacao(cliente, nota)
-        self._avaliacao.append(avaliacao)
+        if nota > 5:
+            nota = 5
+        if 0 <= nota <= 5:
+            avaliacao = Avaliacao(cliente, nota)
+            self._avaliacao.append(avaliacao)
 
     @property
     def media_avaliacao(self):
         if not self._avaliacao:
-            return 0
-        soma_notas = sum(avaliacao._nota for avaliacao in self._avaliacao) #para cada avaliacao dentro do ._avaliacao, pega a ._nota
+            return 'Sem avaliação'
+        soma_notas = sum(Avaliacao._nota for Avaliacao in self._avaliacao) #para cada avaliacao dentro do ._avaliacao, pega a ._nota
         quantidade_notas = len(self._avaliacao)
         media = round(soma_notas/quantidade_notas, 1)
         return media
